@@ -58,7 +58,9 @@ class _LoginPageState extends State<LoginPage> with ValidatorMixin {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        Navigator.of(context).pushNamed('/plan');
+                      }
                     },
                     child: Text('Login'))
               ],
