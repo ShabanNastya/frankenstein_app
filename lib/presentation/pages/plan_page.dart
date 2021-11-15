@@ -13,11 +13,14 @@ class _PlanPageState extends State<PlanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Welcome to plan page'),),
+      appBar: AppBar(
+        title: Text('Welcome to plan page'),
+      ),
       body: Container(),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AddNewPlan()));
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AddNewPlan()));
         },
         child: Icon(Icons.add_task),
       ),
