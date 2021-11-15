@@ -8,11 +8,11 @@ abstract class LoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoginChangeEvent extends LoginEvent {
-  final LoginState loginState;
+class EmailChanged extends LoginEvent {
+  final String value;
 
-  LoginChangeEvent(this.loginState);
+  EmailChanged(this.value);
 
   @override
-  List<Object?> get props => [loginState];
+  List<Object?> get props => [value];
 }

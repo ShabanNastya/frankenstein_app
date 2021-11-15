@@ -1,20 +1,13 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frankenstein_app/domain/validator/validator_mixin.dart';
 import 'package:frankenstein_app/presentation/bloc/login/login_event.dart';
 import 'package:frankenstein_app/presentation/bloc/login/login_state.dart';
-import 'package:bloc/bloc.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitialState());
-
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is LoginChangeEvent) {
-      yield* _login(event);
-    }
-  }
-
-  Stream<LoginState> _login(LoginChangeEvent event) async* {
-    if (event is LoginChangeEvent) {
-      await Future<void>.delayed(const Duration(seconds: 2));
-      yield LoginSuccessState();
-    }
+class LoginBloc extends Bloc<LoginEvent, LoginPageState> with ValidatorMixin {
+  LoginBloc() : super(LoginPageState()) {
+    on<EmailChanged>((event, emit) {
+      emit(state.copyWith(email: event.value));
+      print(state);
+    });
   }
 }
