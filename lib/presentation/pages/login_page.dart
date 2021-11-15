@@ -20,37 +20,42 @@ class _LoginPageState extends State<LoginPage> with ValidatorMixin {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<LoginBloc>(
-        create: (context) => LoginBloc(),
-        child:
-            BlocBuilder<LoginBloc, LoginPageState>(builder: (context, state) {
-          switch (state.status) {
-            case PageStatus.initial:
-              return Scaffold(
-                body: Form(
+    return Scaffold(
+      body: BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(),
+          child:
+              BlocBuilder<LoginBloc, LoginPageState>(builder: (context, state) {
+            switch (state.status) {
+              case PageStatus.initial:
+                return Form(
                   key: formKey,
-                  autovalidateMode: AutovalidateMode.always,
+                  //autovalidateMode: AutovalidateMode.always,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       const Text('Login Page'),
                       TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                               icon: Icon(Icons.email),
                               labelText: 'E-mail',
                               hintText: 'Input e-mail'),
-                          validator: validateEmail,
+                          //validator: validateEmail,
                           onChanged: (newValue) {
                             context
                                 .read<LoginBloc>()
                                 .add(EmailChanged(newValue));
                           }),
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             icon: Icon(Icons.lock),
                             labelText: 'Password',
                             hintText: 'Input password'),
-                        validator: validatePassword,
+                        //validator: validatePassword,
+                        onChanged: (newValue) {
+                          context
+                              .read<LoginBloc>()
+                              .add(PasswordChanged(newValue));
+                        },
                       ),
                       ElevatedButton(
                           onPressed: () {
@@ -58,21 +63,21 @@ class _LoginPageState extends State<LoginPage> with ValidatorMixin {
                               Navigator.of(context).pushNamed('/plan');
                             }
                           },
-                          child: Text('Login'))
+                          child: const Text('Login'))
                     ],
                   ),
-                ),
-              );
+                );
 
-            case PageStatus.error:
-              return const Center(
-                child: Text('Error'),
-              );
-            case PageStatus.success:
-              return const PlanPage();
-            case PageStatus.loading:
-              return const Center(child: CircularProgressIndicator());
-          }
-        }));
+              case PageStatus.error:
+                return const Center(
+                  child: Text('Error'),
+                );
+              case PageStatus.success:
+                return const PlanPage();
+              case PageStatus.loading:
+                return const Center(child: CircularProgressIndicator());
+            }
+          })),
+    );
   }
 }

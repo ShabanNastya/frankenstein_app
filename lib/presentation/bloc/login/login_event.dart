@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:frankenstein_app/presentation/bloc/login/login_state.dart';
 
 abstract class LoginEvent extends Equatable {
   LoginEvent();
@@ -12,6 +11,24 @@ class EmailChanged extends LoginEvent {
   final String value;
 
   EmailChanged(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}
+
+class PasswordChanged extends LoginEvent {
+  final String value;
+
+  PasswordChanged(this.value);
+
+  @override
+  List<Object?> get props => [value];
+}
+
+class EmailCheckValidate extends LoginEvent {
+  final String value;
+
+  EmailCheckValidate(this.value);
 
   @override
   List<Object?> get props => [value];

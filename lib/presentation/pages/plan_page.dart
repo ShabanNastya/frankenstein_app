@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class PlanPage extends StatefulWidget {
   const PlanPage({Key? key}) : super(key: key);
@@ -10,8 +11,10 @@ class PlanPage extends StatefulWidget {
 class _PlanPageState extends State<PlanPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Welcome to plan page'),
+    return const Scaffold(
+      body: Center(
+        child: Text('Welcome to plan page'),
+      ),
     );
   }
 }
