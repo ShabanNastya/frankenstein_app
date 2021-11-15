@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-=======
 import 'package:frankenstein_app/presentation/pages/add_new_plan_page.dart';
-import 'package:frankenstein_app/presentation/pages/login_page.dart';
 import 'package:frankenstein_app/presentation/pages/plan_page.dart';
->>>>>>> Stashed changes
+
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +9,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -71,13 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-=======
-      initialRoute: '/',
-      routes: {
-        '/': (BuildContext context) => AddNewPlan(),
-        '/plan': (BuildContext context) => PlanPage(),
-      },
->>>>>>> Stashed changes
     );
   }
 }
