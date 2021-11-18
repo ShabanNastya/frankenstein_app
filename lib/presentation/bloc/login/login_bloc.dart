@@ -7,21 +7,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginPageState> with ValidatorMixin {
   LoginBloc() : super(const LoginPageState()) {
     on<EmailChanged>((event, emit) {
       emit(state.copyWith(email: event.value));
-      print(state);
     });
 
     on<PasswordChanged>((event, emit) {
       emit(state.copyWith(password: event.value));
-      print(state);
     });
 
-    on<EmailCheckValidate>((event, emit) {
-      if (validateEmail(event.value)) {
+    on<OnTapLogin>((event, emit) async{
+      emit(state.copyWith(status: PageStatus.loading));
+      await Future.delayed(Duration(seconds: 2));
+      emit(state.copyWith(status: PageStatus.success));
+      /*if (validateEmail(event.value)) {
         emit(state.copyWith(email: event.value));
         print(state);
       } else {
         emit(state.copyWith(status: PageStatus.error));
-      }
+      }*/
     });
   }
 }

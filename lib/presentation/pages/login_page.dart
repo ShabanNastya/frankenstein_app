@@ -16,21 +16,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> with ValidatorMixin {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(),
-          child:
-              BlocBuilder<LoginBloc, LoginPageState>(builder: (context, state) {
-            switch (state.status) {
-              case PageStatus.initial:
-                return Form(
-                  key: formKey,
-                  //autovalidateMode: AutovalidateMode.always,
-                  child: Column(
+        create: (context) => LoginBloc(),
+        child: Column(
+          children: [
+            BlocBuilder<LoginBloc, LoginPageState>(
+                buildWhen: (p,c){
+                  return p.email != c.email || p.password != c.password;
+                },
+                builder: (context, state) {
+
+              switch (state.status) {
+                case PageStatus.success:
+                case PageStatus.loading:
+                case PageStatus.initial:
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       const Text('Login Page'),
@@ -39,7 +42,6 @@ class _LoginPageState extends State<LoginPage> with ValidatorMixin {
                               icon: Icon(Icons.email),
                               labelText: 'E-mail',
                               hintText: 'Input e-mail'),
-                          //validator: validateEmail,
                           onChanged: (newValue) {
                             context
                                 .read<LoginBloc>()
@@ -50,34 +52,51 @@ class _LoginPageState extends State<LoginPage> with ValidatorMixin {
                             icon: Icon(Icons.lock),
                             labelText: 'Password',
                             hintText: 'Input password'),
-                        //validator: validatePassword,
                         onChanged: (newValue) {
                           context
                               .read<LoginBloc>()
                               .add(PasswordChanged(newValue));
                         },
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              Navigator.of(context).pushNamed('/plan');
-                            }
-                          },
-                          child: const Text('Login'))
                     ],
-                  ),
-                );
+                  );
 
-              case PageStatus.error:
-                return const Center(
-                  child: Text('Error'),
-                );
-              case PageStatus.success:
-                return const PlanPage();
-              case PageStatus.loading:
-                return const Center(child: CircularProgressIndicator());
-            }
-          })),
+                case PageStatus.error:
+                  return const Center(
+                    child: Text('Error'),
+                  );
+
+              }
+            }),
+            BlocConsumer<LoginBloc, LoginPageState>(
+              listener: (context, state){
+                if(state.status == PageStatus.success){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlanPage()));
+                }
+              },
+                buildWhen: (p,c){
+                  return p.status != c.status;
+                },
+                builder: (context, state) {
+              switch (state.status) {
+                case PageStatus.initial:
+                case PageStatus.error:
+                  return ElevatedButton(
+                      onPressed: () {
+                        context.read<LoginBloc>().add(OnTapLogin());
+                      },
+                      child: const Text('login'));
+
+                case PageStatus.loading:
+                  return CircularProgressIndicator();
+
+                case PageStatus.success:
+                  return SizedBox();
+              }
+            }),
+          ],
+        ),
+      ),
     );
   }
 }

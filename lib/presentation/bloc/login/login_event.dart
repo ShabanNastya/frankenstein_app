@@ -25,11 +25,6 @@ class PasswordChanged extends LoginEvent {
   List<Object?> get props => [value];
 }
 
-class EmailCheckValidate extends LoginEvent {
-  final String value;
+class OnTapLogin extends LoginEvent {
 
-  EmailCheckValidate(this.value);
-
-  @override
-  List<Object?> get props => [value];
 }
